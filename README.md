@@ -1,4 +1,4 @@
-# Cron Expression Parser
+# Cron Expression Parser Task
 
 Write a command line application or script which parses a cron string and expands each field
 to show the times at which it will run. You may use whichever language you feel most
@@ -39,3 +39,8 @@ environment ready in the way you like it, ready for screen sharing.
 
 You should see your project reviewer as a new team member you are handling the project
 over to. Provide everything you feel would be relevant for them to ramp up quickly, such as tests, a README and instructions for how to run your project in a clean OSX/Linux environment.
+
+# How to use it:
+ 1. Run `make install` command. It will create venv and install all necessary dependencies.
+ 2. Run `make run command='command'` to run the command with cron string as a single argument ('command'). For example, `make run command='*/15 0 1,15 * 1-5 /usr/bin/find'`3.
+ 3. Run `make test` to test the command.

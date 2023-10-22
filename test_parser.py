@@ -119,3 +119,23 @@ def test_parser_raises_exception_for_invalid_slash_value():
 
     # then
     assert str(exc_info.value) == "100 is greater than 31 or less than 1"
+
+
+def test_parser_raises_exception_for_invalid_command():
+    # when
+    with pytest.raises(ValueError) as exc_info:
+        main([])
+
+    # then
+    assert str(exc_info.value) == "Please, provide cron string"
+
+
+def test_parser_raises_exception_for_empty_command():
+    # given
+    empty_value_command = "15 0 1/23  1-5 "
+    # when
+    with pytest.raises(ValueError) as exc_info:
+        main([empty_value_command])
+
+    # then
+    assert str(exc_info.value) == "Part of expression can not be an empty string"

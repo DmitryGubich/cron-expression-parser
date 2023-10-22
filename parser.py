@@ -3,6 +3,12 @@ import sys
 EXPRESSION_LENGTH = 6
 
 
+def _parse_string(value: str) -> str:
+    if not value:
+        raise ValueError("Part of expression can not be an empty string")
+    return value
+
+
 def _parse_int(value, max_value: int, min_value: int) -> int:
     try:
         result = int(value)
@@ -20,6 +26,8 @@ def _parse_int(value, max_value: int, min_value: int) -> int:
 def _parse_expression(
     expr: str, max_value: int, min_value: int = 0, step: int = 1
 ) -> str:
+    _parse_string(expr)
+
     if "/" in expr:
         left_part, right_part = expr.split("/")
         return _parse_expression(
@@ -59,7 +67,11 @@ def _parse_expression(
 
 
 def main(args: list) -> None:
-    parts = args[0].split(" ")
+    try:
+        parts = args[0].split(" ")
+
+    except Exception as e:
+        raise ValueError("Please, provide cron string") from e
 
     if len(parts) != EXPRESSION_LENGTH:
         raise ValueError(f"Command must have 6 components")
@@ -80,7 +92,7 @@ def main(args: list) -> None:
     )
     months = f"month {_parse_expression(month_expr,max_value=12, min_value=1)}"
     day_weeks = f"day of week {_parse_expression(day_week_expr,max_value=6)}"
-    command = f"command {command_expr}"
+    command = f"command {_parse_string(command_expr)}"
 
     print("\n".join([minutes, hours, day_months, months, day_weeks, command]))
 
