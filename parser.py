@@ -30,10 +30,15 @@ def _parse_expression(
         )
 
     elif expr.isnumeric():
-        return expr
+        return str(_parse_int(value=expr, max_value=max_value, min_value=min_value))
 
     elif "," in expr:
-        return " ".join(expr.split(","))
+        return " ".join(
+            [
+                str(_parse_int(value=i, max_value=max_value, min_value=min_value))
+                for i in expr.split(",")
+            ]
+        )
 
     elif expr == "*":
         return " ".join([f"{i}" for i in range(min_value, max_value + 1, step)])
@@ -53,10 +58,11 @@ def _parse_expression(
         )
 
 
-def main(expression) -> None:
-    parts = expression[0].split(" ")
+def main(args: list) -> None:
+    parts = args[0].split(" ")
+
     if len(parts) != EXPRESSION_LENGTH:
-        raise ValueError(f'"{expression}" must have 6 components')
+        raise ValueError(f"Command must have 6 components")
 
     (
         minute_expr,
