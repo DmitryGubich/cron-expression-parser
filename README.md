@@ -42,5 +42,5 @@ over to. Provide everything you feel would be relevant for them to ramp up quick
 
 # How to use it:
  1. Run `make install` command. It will create venv and install all necessary dependencies.
- 2. Run `make run command='command'` to run the command with cron string as a single argument ('command'). For example, `make run command='*/15 0 1,15 * 1-5 /usr/bin/find'`3.
+ 2. Run `make run command='command'` to run the command with cron string as a single argument ('command'). For example, `make run command='*/15 0 1,15 * 1-5 /usr/bin/find'`
  3. Run `make test` to test the command.
