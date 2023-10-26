@@ -50,6 +50,64 @@ import pytest
                 "command /usr/bin/find\n"
             ),
         ),
+        (
+            "2,5,8,9 12-14 25-26 */3 2-5 /usr/bin/find a*",
+            (
+                "minute 2 5 8 9\n"
+                "hour 12 13 14\n"
+                "day of month 25 26\n"
+                "month 1 4 7 10\n"
+                "day of week 2 3 4 5\n"
+                "command /usr/bin/find a*\n"
+            ),
+        ),
+        (
+            "2,5,8,9 12-14 25-26 */3 2-5 /usr/bin/find a* grep ls",
+            (
+                "minute 2 5 8 9\n"
+                "hour 12 13 14\n"
+                "day of month 25 26\n"
+                "month 1 4 7 10\n"
+                "day of week 2 3 4 5\n"
+                "command /usr/bin/find a* grep ls\n"
+            ),
+        ),
+        (
+            "2,5,8,9 12-14 25-26 */3 2-5 2022-2023 /usr/bin/find a* grep ls",
+            (
+                "minute 2 5 8 9\n"
+                "hour 12 13 14\n"
+                "day of month 25 26\n"
+                "month 1 4 7 10\n"
+                "day of week 2 3 4 5\n"
+                "year 2022 2023\n"
+                "command /usr/bin/find a* grep ls\n"
+            ),
+        ),
+        (
+            "2,5,8,9 12-14 25-26 */3 2-5 2022,2025 /usr/bin/find a* grep ls",
+            (
+                "minute 2 5 8 9\n"
+                "hour 12 13 14\n"
+                "day of month 25 26\n"
+                "month 1 4 7 10\n"
+                "day of week 2 3 4 5\n"
+                "year 2022 2025\n"
+                "command /usr/bin/find a* grep ls\n"
+            ),
+        ),
+        (
+            "2,5,8,9 12-14 25-26 */3 2-5 */1000 /usr/bin/find a* grep ls",
+            (
+                "minute 2 5 8 9\n"
+                "hour 12 13 14\n"
+                "day of month 25 26\n"
+                "month 1 4 7 10\n"
+                "day of week 2 3 4 5\n"
+                "year 900 1900 2900\n"
+                "command /usr/bin/find a* grep ls\n"
+            ),
+        ),
     ],
 )
 def test_parser_works_correctly(capfd, command, expected_result):
@@ -70,19 +128,7 @@ def test_parser_raises_exception_with_small_amount_of_arguments():
         main([five_args_command])
 
     # then
-    assert str(exc_info.value) == "Command must have 6 components"
-
-
-def test_parser_raises_exception_with_big_amount_of_arguments():
-    # given
-    seven_args_command = "2,5,8,9 12-14 25-26 */3 2-5 2-5 /usr/bin/find"
-
-    # when
-    with pytest.raises(ValueError) as exc_info:
-        main([seven_args_command])
-
-    # then
-    assert str(exc_info.value) == "Command must have 6 components"
+    assert str(exc_info.value) == "Command has incorrect number of components"
 
 
 def test_parser_raises_exception_for_invalid_number_value():
