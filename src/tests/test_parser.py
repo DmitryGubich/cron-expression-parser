@@ -1,6 +1,6 @@
-from parser import main
-
 import pytest
+
+from src.parser import main
 
 
 @pytest.mark.parametrize(

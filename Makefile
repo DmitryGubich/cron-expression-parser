@@ -18,7 +18,7 @@ install: venv requirements.txt
 # run the command
 run:
 	@echo "$(ccso)--> Run tests $(ccend)"
-	$(PYTHON) parser.py "${command}"
+	$(PYTHON) src/parser.py "${command}"
 
 # run tests
 test:
